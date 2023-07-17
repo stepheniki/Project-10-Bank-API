@@ -1,20 +1,34 @@
  import React from "react"
-import "../assets/argentBankLogo.png"
+import argentBankLogo from "../assets/argentBankLogo.png"
+import iconChat from "../assets/icon-chat.png";
+import iconMoney from "../assets/icon-money.png";
+import iconSecurity from "../assets/icon-security.png";
+
+
  function Home () {
     return (
- 
+     <> <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Argent Bank - Home Page</title>
+      <link rel="stylesheet" href="./css/main.css" />
+      <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      />
+    </head>
   <body>
     <nav class="main-nav">
-      <a class="main-nav-logo" href="./index.html">
+      <a class="main-nav-logo" href="./">
         <img
           class="main-nav-logo-image"
-          src="./assets/argentBankLogo.png"
+          src={argentBankLogo}
           alt="Argent Bank Logo"
         />
         <h1 class="sr-only">Argent Bank</h1>
       </a>
       <div>
-        <a class="main-nav-item" href="./sign-in.html">
+        <a class="main-nav-item" href="./sign-in">
           <i class="fa fa-user-circle"></i>
           Sign In
         </a>
@@ -33,7 +47,7 @@ import "../assets/argentBankLogo.png"
       <section class="features">
         <h2 class="sr-only">Features</h2>
         <div class="feature-item">
-          <img src="../assets/icon-chat.jpeg" alt="Chat Icon" class="feature-icon" />
+          <img src={iconChat} alt="Chat Icon" class="feature-icon" />
           <h3 class="feature-item-title">You are our #1 priority</h3>
           <p>
             Need to talk to a representative? You can get in touch through our
@@ -42,8 +56,8 @@ import "../assets/argentBankLogo.png"
         </div>
         <div class="feature-item">
           <img
-            src="./img/icon-money.png"
-            alt="Chat Icon"
+            src={iconMoney}
+            alt="Money Icon"
             class="feature-icon"
           />
           <h3 class="feature-item-title">More savings means higher rates</h3>
@@ -53,8 +67,8 @@ import "../assets/argentBankLogo.png"
         </div>
         <div class="feature-item">
           <img
-            src="./img/icon-security.png"
-            alt="Chat Icon"
+            src={iconSecurity}
+            alt="Security Icon"
             class="feature-icon"
           />
           <h3 class="feature-item-title">Security you can trust</h3>
@@ -69,6 +83,7 @@ import "../assets/argentBankLogo.png"
       <p class="footer-text">Copyright 2020 Argent Bank</p>
     </footer>
   </body>
+  </>
     )
 }
 
