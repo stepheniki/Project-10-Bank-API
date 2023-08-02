@@ -1,68 +1,91 @@
-import React from "react"
-import argentBankLogo from "../assets/argentBankLogo.png"
 
-function Profil () {
 
-    return (
-<>
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Argent Bank - Home Page</title>
-    <link rel="stylesheet" href="./css/main.css" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-  </head>
+import { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import argentBankLogo from "../assets/argentBankLogo.png";
+import { useDispatch } from "react-redux";
+import Axios from "axios";
 
-        <body>
-        <nav class="main-nav">
-          <a class="main-nav-logo" href="./">
-            <img
-              class="main-nav-logo-image"
-              src={argentBankLogo}
-              alt="Argent Bank Logo"
-            />
-            <h1 class="sr-only">Argent Bank</h1>
+function Profil() {
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+console.log (handleSubmit)
+    const credentials = { email: login, password };
+
+    try {
+      const response = await Axios.post(
+        'http://localhost:3001/api/v1/user/login',
+        credentials
+      );
+
+      const token = response.data.token;
+      dispatch(login({ token }));
+
+      // Redirigez l'utilisateur vers la page souhaitée après connexion réussie
+      navigate("/user");
+    } catch (error) {
+      setErrorMessage("Mauvais e-mail ou mot de passe. Veuillez réessayer.");
+    }
+  }
+
+  
+  return (
+    <>
+      <nav className="main-nav">
+        <a className="main-nav-logo" href="./">
+          <img
+            className="main-nav-logo-image"
+            src={argentBankLogo}
+            alt="Argent Bank Logo"
+          />
+          <h1 className="sr-only">Argent Bank</h1>
+        </a>
+        <div>
+          <a className="main-nav-item" href="./login">
+            <i className="fa fa-user-circle"></i>
+            Sign In
           </a>
-          <div>
-            <a class="main-nav-item" href="./sign-in">
-              <i class="fa fa-user-circle"></i>
-              Sign In
-            </a>
-          </div>
-        </nav>
-        <main class="main bg-dark">
-          <section class="sign-in-content">
-            <i class="fa fa-user-circle sign-in-icon"></i>
-            <h1>Sign In</h1>
-            <form>
-              <div class="input-wrapper">
-                <label for="username">Username</label
-                ><input type="text" id="username" />
-              </div>
-              <div class="input-wrapper">
-                <label for="password">Password</label
-                ><input type="password" id="password" />
-              </div>
-              <div class="input-remember">
-                <input type="checkbox" id="remember-me" /><label for="remember-me"
-                  >Remember me</label>
-              </div>
-               {/* PLACEHOLDER DUE TO STATIC SITE */}  
-              <a href="./user" class="sign-in-button">Sign In</a>
-              {/* SHOULD BE THE BUTTON BELOW 
-              <button class="sign-in-button">Sign In</button> */}
-            </form>
-          </section>
-        </main>
-        <footer class="footer">
-          <p class="footer-text">Copyright 2020 Argent Bank</p>
-        </footer>
-          </body>
-          </>
-    )
+        </div>
+      </nav>
+      <main className="main bg-dark">
+        <section className="sign-in-content">
+          <i className="fa fa-user-circle sign-in-icon"></i>
+          <h1>Sign In</h1>
+          <form>
+            <div className="input-wrapper">
+              <label htmlFor="username">Username</label>
+              <input onChange={e=>setLogin(e.target.value)} value={login} type="text" id="username" />
+            </div>
+            <div className="input-wrapper">
+              <label htmlFor="password">Password</label>
+              <input onChange={e=>setPassword(e.target.value)} value={password} type="password" id="password" />
+            </div>
+            <div className="input-remember">
+              <input type="checkbox" id="remember-me" />
+              <label htmlFor="remember-me">Remember me</label>
+            </div>
+              {/* Affichez le message d'erreur si un message est présent */}
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
+              <button onClick={handleSubmit} className="sign-in-button">
+          Sign In
+        </button>
+                         
+          </form>
+        </section>
+      </main>
+      <footer className="footer">
+        <p className="footer-text">Copyright 2020 Argent Bank</p>
+      </footer>
+    </>
+  );
 }
 
 export default Profil;
