@@ -1,12 +1,22 @@
-import React from "react"
-import argentBankLogo from "../assets/argentBankLogo.png"
+import React, { useState } from "react";
+import argentBankLogo from "../assets/argentBankLogo.png";
 
-function User () {
+function User() {
+  const [isEditing, setIsEditing] = useState(false); // État pour gérer l'édition
+  const [firstName, setFirstName] = useState("Tony"); // État pour le prénom
+  const [lastName, setLastName] = useState("Jarvis"); // État pour le nom
 
-    return (
-       <> 
-       <body>
-        <nav className="main-nav">
+  const handleEditClick = () => {
+    setIsEditing(true); // Active l'édition lorsque l'utilisateur clique sur "Edit"
+  };
+
+  const handleSaveClick = () => {
+    setIsEditing(false); // Désactive l'édition lorsque l'utilisateur clique sur "Save"
+  };
+
+  return (
+    <div className="body-css">
+      <nav className="main-nav">
           <a className="main-nav-logo" href="./">
             <img
               className="main-nav-logo-image"
@@ -25,12 +35,42 @@ function User () {
               Sign Out
             </a>
           </div>
-        </nav>
-        <main className="main bg-dark">
-          <div className="header">
-            <h1>Welcome back<br />Tony Jarvis!</h1>
-            <button className="edit-button">Edit Name</button>
-          </div>
+          </nav>
+      <main className="main bg-dark">
+        <div className="header">
+          {/* Affiche le contenu du nom et du prénom dans un champ de texte si l'édition est activée */}
+          {isEditing ? (
+            <>
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+              <input
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </>
+          ) : (
+            <h1>
+              Welcome back
+              <br />
+              {firstName} {lastName}!
+            </h1>
+          )}
+
+          {/* Bouton "Edit" ou "Save" en fonction de l'état d'édition */}
+          {isEditing ? (
+            <button className="edit-button" onClick={handleSaveClick}>
+              Save
+            </button>
+          ) : (
+            <button className="edit-button" onClick={handleEditClick}>
+              Edit Name
+            </button>
+          )}
+        </div>
           <h2 className="sr-only">Accounts</h2>
           <section className="account">
             <div className="account-content-wrapper">
@@ -66,8 +106,7 @@ function User () {
         <footer className="footer">
           <p className="footer-text">Copyright 2020 Argent Bank</p>
         </footer>
-      </body>
-      </>
+      </div>
     )
 }
 
