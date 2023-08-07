@@ -2,43 +2,47 @@
 
 import { useState } from "react";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import argentBankLogo from "../assets/argentBankLogo.png";
-import { useDispatch } from "react-redux";
 import Axios from "axios";
+import { useDispatch } from 'react-redux';
+import { setToken } from '../authSlice'; // Importez setToken
+import { useNavigate } from "react-router-dom"; // Assurez-vous d'importer useNavigate
 
-function Profil() {
+function Login() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate(); // Utilisez useNavigate pour obtenir la fonction de navigation
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
-console.log (handleSubmit)
+  
     const credentials = { email: login, password };
-
+  
     try {
       const response = await Axios.post(
         'http://localhost:3001/api/v1/user/login',
         credentials
       );
-
+  
       const token = response.data.token;
-      dispatch(login({ token }));
-
-      // Redirigez l'utilisateur vers la page souhaitée après connexion réussie
+      dispatch(setToken(token));
+  
+      console.log("Token received:", token); // Déplacez ici
+  
       navigate("/user");
     } catch (error) {
       setErrorMessage("Mauvais e-mail ou mot de passe. Veuillez réessayer.");
     }
   }
+  
 
   
   return (
     <>
+    <body>
       <nav className="main-nav">
         <a className="main-nav-logo" href="./">
           <img
@@ -84,8 +88,9 @@ console.log (handleSubmit)
       <footer className="footer">
         <p className="footer-text">Copyright 2020 Argent Bank</p>
       </footer>
+      </body>
     </>
   );
 }
 
-export default Profil;
+export default Login;

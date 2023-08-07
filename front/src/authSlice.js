@@ -17,6 +17,5 @@ const authSlice = createSlice({
   },
 });
 
-// Exportez directement le réducteur et les actions ici
 export const { setToken, clearToken } = authSlice.actions;
-export default authSlice.reducer; // Ajoutez cette ligne pour exporter le réducteur par défaut
+export default authSlice.reducer;
