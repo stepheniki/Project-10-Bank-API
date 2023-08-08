@@ -13,6 +13,10 @@ html {
   flex-direction: column;
   min-height: 100vh;
 }
+.error-message{
+  color: red;
+  font-weight: 500;
+}
 
 .main {
   flex: 1;
