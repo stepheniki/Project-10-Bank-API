@@ -1,19 +1,59 @@
 import React, { useState } from "react";
 import argentBankLogo from "../assets/argentBankLogo.png";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import axios from "axios";
 
 function User() {
-  const [isEditing, setIsEditing] = useState(false); // État pour gérer l'édition
-  const [firstName, setFirstName] = useState("Tony"); // État pour le prénom
-  const [lastName, setLastName] = useState("Jarvis"); // État pour le nom
+  const token = useSelector((state) => state.auth.token);
+  const [isEditing, setIsEditing] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:3001/api/v1/user/profile", {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        const { firstName, lastName } = response.data.body;
+        setFirstName(firstName);
+        setLastName(lastName);
+      })
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+      });
+  }, [token]);
+
 
   const handleEditClick = () => {
-    setIsEditing(true); // Active l'édition lorsque l'utilisateur clique sur "Edit"
+    setIsEditing(true);
   };
 
   const handleSaveClick = () => {
-    setIsEditing(false); // Désactive l'édition lorsque l'utilisateur clique sur "Save"
+    axios
+      .put(
+        "http://localhost:3001/api/v1/user/profile",
+        {
+          firstName: firstName,
+          lastName: lastName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        // Si la requête réussit, désactive le mode édition
+        setIsEditing(false);
+      })
+      .catch((error) => {
+        console.error("Error updating user profile:", error);
+      });
   };
-
   return (
     <div className="body-css">
       <nav className="main-nav">
@@ -23,12 +63,13 @@ function User() {
               src={argentBankLogo}
               alt="Argent Bank Logo"
             />
+            
             <h1 className="sr-only">Argent Bank</h1>
           </a>
           <div>
             <a className="main-nav-item" href="./user">
               <i className="fa fa-user-circle"></i>
-              Tony
+              {firstName}
             </a>
             <a className="main-nav-item" href="./">
               <i className="fa fa-sign-out"></i>

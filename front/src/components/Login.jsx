@@ -29,7 +29,8 @@ function Login() {
       );
   
       // Récupération du token de la réponse et mise à jour de l'état Redux
-      const token = response.data.token;
+      const token = response.data.body.token;
+      console.log(token)
       dispatch(setToken(token));
 
       // Redirection vers la page utilisateur après une connexion réussie
