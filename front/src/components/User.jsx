@@ -10,6 +10,7 @@ function User() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
+  // déclencher l'appel à l'API
   useEffect(() => {
     axios
       .post("http://localhost:3001/api/v1/user/profile", {}, {
@@ -17,6 +18,8 @@ function User() {
           Authorization: `Bearer ${token}`,
         },
       })
+      // Une fois que la réponse de l'API est reçue avec succès, les propriétés firstName et lastName de l'objet response.data.body sont extraites
+      // et utilisées pour mettre à jour les états firstName et lastName à l'aide des fonctions setFirstName et setLastName.
       .then((response) => {
         const { firstName, lastName } = response.data.body;
         setFirstName(firstName);
