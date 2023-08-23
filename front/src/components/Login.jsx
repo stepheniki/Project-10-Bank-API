@@ -1,9 +1,9 @@
 import { useState } from "react";
-import argentBankLogo from "../assets/argentBankLogo.png";
 import Axios from "axios";
 import { useDispatch } from 'react-redux';
 import { setToken } from '../store'; // Importez setToken depuis le store
 import { useNavigate } from "react-router-dom";
+import Header from "./Header";
 
 function Login() {
   // États locaux pour gérer les valeurs de login, password et message d'erreur
@@ -44,22 +44,7 @@ function Login() {
   return (
     <div className="body-css">
       {/* Barre de navigation */}
-      <nav className="main-nav">
-        <a className="main-nav-logo" href="./">
-          <img
-            className="main-nav-logo-image"
-            src={argentBankLogo}
-            alt="Argent Bank Logo"
-          />
-          <h1 className="sr-only">Argent Bank</h1>
-        </a>
-        <div>
-          <a className="main-nav-item" href="./login">
-            <i className="fa fa-user-circle"></i>
-            Sign In
-          </a>
-        </div>
-      </nav>
+     <Header/>
       {/* Contenu principal */}
       <main className="main bg-dark">
         <section className="sign-in-content">

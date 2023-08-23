@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import argentBankLogo from "../assets/argentBankLogo.png";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
+import Header from "./Header";
 
 function User() {
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.token);
   const [isEditing, setIsEditing] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -59,27 +59,7 @@ function User() {
   };
   return (
     <div className="body-css">
-      <nav className="main-nav">
-          <a className="main-nav-logo" href="./">
-            <img
-              className="main-nav-logo-image"
-              src={argentBankLogo}
-              alt="Argent Bank Logo"
-            />
-            
-            <h1 className="sr-only">Argent Bank</h1>
-          </a>
-          <div>
-            <a className="main-nav-item" href="./user">
-              <i className="fa fa-user-circle"></i>
-              {firstName}
-            </a>
-            <a className="main-nav-item" href="./">
-              <i className="fa fa-sign-out"></i>
-              Sign Out
-            </a>
-          </div>
-          </nav>
+      <Header/>
       <main className="main bg-dark">
         <div className="header">
           {/* Affiche le contenu du nom et du prénom dans un champ de texte si l'édition est activée */}
