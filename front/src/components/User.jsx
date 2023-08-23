@@ -1,34 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Importer useNavigate
 import axios from "axios";
 import Header from "./Header";
 
 function User() {
   const token = useSelector((state) => state.token);
+  const navigate = useNavigate(); // Obtenir la fonction de navigation
+
   const [isEditing, setIsEditing] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  // déclencher l'appel à l'API
   useEffect(() => {
-    axios
-      .post("http://localhost:3001/api/v1/user/profile", {}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      // Une fois que la réponse de l'API est reçue avec succès, les propriétés firstName et lastName de l'objet response.data.body sont extraites
-      // et utilisées pour mettre à jour les états firstName et lastName à l'aide des fonctions setFirstName et setLastName.
-      .then((response) => {
-        const { firstName, lastName } = response.data.body;
-        setFirstName(firstName);
-        setLastName(lastName);
-      })
-      .catch((error) => {
-        console.error("Error fetching user profile:", error);
-      });
-  }, [token]);
+    // Vérifier si le token est présent
+    if (!token) {
+      // Rediriger vers la page de connexion si le token est vide, le chemin /user inaccessible si pas connecté
+      navigate("/login");
+    } else {
+      axios
+        .post("http://localhost:3001/api/v1/user/profile", {}, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          const { firstName, lastName } = response.data.body;
+          setFirstName(firstName);
+          setLastName(lastName);
+        })
+        .catch((error) => {
+          console.error("Error fetching user profile:", error);
+        });
+    }
+  }, [token, navigate]);
 
 
   const handleEditClick = () => {
