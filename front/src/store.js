@@ -1,16 +1,19 @@
+// Import des bibliothèques nécessaires
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 
+// Configuration de la persistance du store
 const persistConfig = {
   key: 'root',
   storage,
 }
 
+// État initial pour la gestion de l'authentification
 const initialState = {
-      token: "",
-             };
+  token: "",
+};
 
 // Définir le type d'action
 export const LOGOUT = 'LOGOUT';
@@ -20,6 +23,7 @@ export const logout = () => ({
   type: LOGOUT
 });
 
+// Créer une "slice" pour la gestion de l'authentification
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -30,29 +34,23 @@ export const authSlice = createSlice({
     clearToken: (state) => {
       state.token = null;
     },
-   // Ajouter un cas pour l'action LOGOUT
-   [LOGOUT]: (state) => {
-    state.token = null;
-  }
-},
+    [LOGOUT]: (state) => {
+      state.token = null;
+    }
+  },
 });
 
-/* const reducer = combineReducers({
-    isLoggedIn: login_reducer,
-    token: auth,
-    firstName: firstName_reducer,
-    lastName: lastName_reducer,
-    });*/
+const persistedReducer = persistReducer(persistConfig, authSlice.reducer);
 
-const persistedReducer = persistReducer(persistConfig, authSlice.reducer) // authSlice.reducer modifier en reducer
-
+// Exporter les créateurs d'actions
 export const { setToken, clearToken } = authSlice.actions;
-export default authSlice.reducer
+
+// Configurer le store Redux
 export const store = configureStore({
   reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== 'production',
   middleware: [thunk]
 });
 
-export const persistor = persistStore(store)
-
+// Créer un persistor pour la persistance du store
+export const persistor = persistStore(store);
