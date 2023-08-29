@@ -38,11 +38,6 @@ function Header() {
     }
   }, [token]);
 
-//verifier si token différent de ""
-// afficher nom prenom + log out
-// sinon rien "log in"
-// ajouter "log out" vider le store
-
   return (
     <nav className="main-nav">
       <a className="main-nav-logo" href="./">
