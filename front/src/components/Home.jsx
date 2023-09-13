@@ -7,13 +7,14 @@ import Header from "./Header";
 
  function Home () {
 
-  const token = useSelector((state) => state.token);
+  const token = useSelector((state) => state.token); // Récupère le token depuis le store en utilisant useSelector
 console.log(token)
+
     return (
   
      <div className="body-css">
       
-    <Header/>
+    <Header/> 
     <main>
       <div className="hero">
         <section className="hero-content">
