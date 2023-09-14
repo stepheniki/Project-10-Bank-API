@@ -7,7 +7,7 @@ import thunk from 'redux-thunk'; // Importe redux-thunk pour les actions asynchr
 // Configuration de la persistance du store
 const persistConfig = {
   key: 'root', // Clé pour la persistance du store
-  storage, // Stockage utilisé (dans ce cas, localStorage)
+  storage, // Stockage utilisé
 }
 
 // État initial pour la gestion de l'authentification
