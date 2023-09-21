@@ -86,8 +86,7 @@ paths:
       responses:
         "200":
           description: "Successfully created a transaction!"
-          schema:
-           
+
         "400":
           description: "Invalid Fields"
         "500":
